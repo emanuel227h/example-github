@@ -1,84 +1,283 @@
+
 <!doctype html>
 <html lang="es">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Tu Nombre — Perfil</title>
-  <style>
-    :root{--bg:#0f1724;--card:#0b1220;--accent:#7c3aed;--muted:#94a3b8;--glass:rgba(255,255,255,0.04)}
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial; background:linear-gradient(180deg,#081126 0%, #07122a 100%);color:#e6eef8}
-    .container{max-width:900px;margin:0 auto;padding:24px}
-    header.hero{padding:48px 24px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);box-shadow:0 6px 24px rgba(2,6,23,0.6);margin:24px auto}
-    .hero-inner{display:flex;gap:20px;align-items:center}
-    .avatar{width:110px;height:110px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#06b6d4);flex:0 0 110px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:34px;color:white}
-    h1{margin:0;font-size:28px}
-    .role{margin:6px 0;color:var(--muted)}
-    .actions{margin-top:14px}
-    .btn{display:inline-block;padding:10px 14px;border-radius:8px;background:var(--accent);color:white;text-decoration:none;margin-right:10px;font-weight:600}
-    .btn.outline{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<title>Concesionario — Catálogo de Autos</title>
+		<meta name="description" content="Concesionario: catálogo de autos, marcas, colores y estilos. Filtra y mira detalles." />
+		<style>
+			:root{
+				--bg:#06070a; --card:#0f1724; --glass:rgba(255,255,255,0.03);
+				--gold:#c9a94b; --muted:#9aa6b2; --accent:#0ea5a4; --white: #eef2f6;
+			}
+			*{box-sizing:border-box}
+			html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial;color:var(--white);background:linear-gradient(180deg,#020305 0%, #071021 100%)}
+			.wrap{max-width:1200px;margin:28px auto;padding:20px}
 
-    main{margin-top:22px}
-    section.card{background:var(--card);padding:18px;border-radius:10px;margin-bottom:12px;box-shadow:0 4px 18px rgba(2,6,23,0.5)}
-    .skills{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-    .skill{background:var(--glass);padding:6px 10px;border-radius:999px;color:var(--muted);font-weight:600;font-size:13px}
-    footer{opacity:0.6;text-align:center;padding:20px 10px;font-size:13px}
+			header{display:flex;align-items:center;justify-content:space-between;gap:20px}
+			.brand{display:flex;align-items:center;gap:14px}
+			.logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--gold),#f3e6b9);display:flex;align-items:center;justify-content:center;color:#081018;font-weight:800}
+			h1{margin:0;font-size:20px}
+			p.lead{margin:2px 0 0;color:var(--muted)}
 
-    @media (max-width:640px){
-      .hero-inner{flex-direction:column;align-items:flex-start}
-      .avatar{width:92px;height:92px;font-size:28px}
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <header class="hero" role="banner">
-      <div class="hero-inner">
-        <!-- Cambia las iniciales o reemplaza con una imagen si prefieres -->
-        <div class="avatar">TN</div>
-        <div>
-          <h1>Tu Nombre Apellido</h1>
-          <div class="role">Desarrollador/a Web • Diseñador/a • Profesión</div>
-          <div class="actions">
-            <a class="btn" href="#">Descargar CV</a>
-            <a class="btn outline" href="mailto:tu@ejemplo.com">Contactar</a>
-          </div>
-        </div>
-      </div>
-    </header>
+			.controls{margin-top:20px;display:flex;gap:12px;flex-wrap:wrap}
+			.control{background:var(--card);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);min-width:180px}
+			select,input[type=search]{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--white)}
+			.colors{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+			.color-swatch{width:28px;height:28px;border-radius:6px;box-shadow:0 4px 14px rgba(0,0,0,0.6);cursor:pointer;outline:2px solid transparent}
+			.color-swatch.selected{outline:2px solid rgba(255,255,255,0.12)}
 
-    <main>
-      <section class="card" id="about">
-        <h2>Sobre mí</h2>
-        <p style="color:var(--muted)">Soy desarrollador/a con experiencia en crear aplicaciones web modernas y accesibles. Me interesa resolver problemas complejos y aprender nuevas tecnologías. Aquí puedes poner una breve biografía: 2-3 líneas con tus fortalezas y objetivo profesional.</p>
-      </section>
+			main{margin-top:22px}
+			.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+			.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,0.04);box-shadow:0 8px 30px rgba(2,6,23,0.6)}
+			.card img{width:100%;height:170px;object-fit:cover;display:block}
+			.card-body{padding:12px}
+			.meta{display:flex;justify-content:space-between;align-items:center}
+			.model{font-weight:700}
+			.price{color:var(--gold);font-weight:800}
+			.tags{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap}
+			.tag{background:var(--glass);padding:6px 8px;border-radius:999px;color:var(--muted);font-weight:700;font-size:12px}
 
-      <section class="card" id="skills">
-        <h2>Habilidades</h2>
-        <div class="skills">
-          <span class="skill">HTML</span>
-          <span class="skill">CSS</span>
-          <span class="skill">JavaScript</span>
-          <span class="skill">React</span>
-          <span class="skill">Node.js</span>
-          <span class="skill">UI/UX</span>
-        </div>
-      </section>
+			.actions{display:flex;gap:8px;margin-top:10px}
+			.btn{background:var(--accent);color:#021018;padding:8px 10px;border-radius:8px;text-decoration:none;font-weight:700}
+			.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.05);color:var(--white)}
 
-      <section class="card" id="contact">
-        <h2>Contacto</h2>
-        <p style="color:var(--muted)">Correo: <a href="mailto:tu@ejemplo.com" style="color:inherit">tu@ejemplo.com</a></p>
-        <p style="color:var(--muted)">Enlaces:
-          <a href="#" style="color:inherit">GitHub</a> •
-          <a href="#" style="color:inherit">LinkedIn</a>
-        </p>
-      </section>
-    </main>
+			/* Modal */
+			.overlay{position:fixed;inset:0;background:rgba(2,6,23,0.6);display:none;align-items:center;justify-content:center;padding:20px}
+			.overlay.open{display:flex}
+			.modal{width:100%;max-width:900px;background:var(--card);border-radius:12px;overflow:hidden}
+			.modal-grid{display:grid;grid-template-columns:1fr 360px}
+			.modal img{width:100%;height:100%;object-fit:cover}
+			.modal-body{padding:18px}
+			.close{position:absolute;right:12px;top:12px;background:transparent;border:0;color:var(--muted);font-size:18px}
 
-    <footer>
-      © 2025 Tu Nombre — Página de presentación creada rápidamente
-    </footer>
-  </div>
-</body>
+			footer{margin-top:26px;text-align:center;color:var(--muted)}
+
+			@media (max-width:880px){
+				.modal-grid{grid-template-columns:1fr}
+				.modal img{height:240px}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="wrap">
+			<header>
+				<div class="brand">
+					<div class="logo">C</div>
+					<div>
+						<h1>Concesionario Premium</h1>
+						<p class="lead">Catálogo de vehículos — marcas, colores y estilos. Filtra y encuentra tu próximo auto.</p>
+					</div>
+				</div>
+				<div style="text-align:right">
+					<div style="color:var(--muted);font-weight:700">Llamar: <a href="tel:+34900000000" style="color:var(--white);text-decoration:none">+34 900 000 000</a></div>
+					<div style="color:var(--muted);font-size:13px">Ubicación: Ciudad Ejemplo</div>
+				</div>
+			</header>
+
+			<div class="controls">
+				<div class="control">
+					<label for="search">Buscar</label>
+					<input id="search" type="search" placeholder="Modelo, marca o palabra clave...">
+				</div>
+
+				<div class="control">
+					<label for="brand">Marca</label>
+					<select id="brand">
+						<option value="">Todas las marcas</option>
+						<option>Audi</option>
+						<option>BMW</option>
+						<option>Mercedes</option>
+						<option>Tesla</option>
+						<option>Toyota</option>
+						<option>Ford</option>
+					</select>
+				</div>
+
+				<div class="control">
+					<label for="style">Estilo</label>
+					<select id="style">
+						<option value="">Todos los estilos</option>
+						<option>Sedan</option>
+						<option>Coupe</option>
+						<option>SUV</option>
+						<option>Deportivo</option>
+						<option>Híbrido/Eléctrico</option>
+					</select>
+				</div>
+
+				<div class="control" style="min-width:260px">
+					<label>Color</label>
+					<div class="colors" id="colors">
+						<!-- colores luxury -->
+						<div class="color-swatch" data-color="Negro" title="Negro" style="background:#0b0b0b"></div>
+						<div class="color-swatch" data-color="Blanco" title="Blanco" style="background:#f5f5f7"></div>
+						<div class="color-swatch" data-color="Gris" title="Gris" style="background:#6b7280"></div>
+						<div class="color-swatch" data-color="Rojo" title="Rojo" style="background:#b91c1c"></div>
+						<div class="color-swatch" data-color="Azul" title="Azul" style="background:#0ea5a4"></div>
+						<div class="color-swatch" data-color="Dorado" title="Dorado" style="background:linear-gradient(90deg,#c9a94b,#f2e6b5)"></div>
+					</div>
+				</div>
+			</div>
+
+			<main>
+				<div class="grid" id="catalog">
+					<!-- Each card has data attributes for filtering -->
+					<article class="card" data-brand="Audi" data-style="Sedan" data-color="Negro" data-name="Audi A6">
+						<img src="https://picsum.photos/seed/audi1/800/600" alt="Audi A6">
+						<div class="card-body">
+							<div class="meta"><div class="model">Audi A6</div><div class="price">€42,000</div></div>
+							<div class="tags"><span class="tag">Audi</span><span class="tag">Sedan</span><span class="tag">Negro</span></div>
+							<div class="actions"><a class="btn" href="#" data-action="view">Ver</a><a class="btn ghost" href="#">Contactar</a></div>
+						</div>
+					</article>
+
+					<article class="card" data-brand="BMW" data-style="Deportivo" data-color="Rojo" data-name="BMW M3">
+						<img src="https://picsum.photos/seed/bmw1/800/600" alt="BMW M3">
+						<div class="card-body">
+							<div class="meta"><div class="model">BMW M3</div><div class="price">€78,000</div></div>
+							<div class="tags"><span class="tag">BMW</span><span class="tag">Deportivo</span><span class="tag">Rojo</span></div>
+							<div class="actions"><a class="btn" href="#" data-action="view">Ver</a><a class="btn ghost" href="#">Contactar</a></div>
+						</div>
+					</article>
+
+					<article class="card" data-brand="Mercedes" data-style="Sedan" data-color="Blanco" data-name="Mercedes S-Class">
+						<img src="https://picsum.photos/seed/mercedes1/800/600" alt="Mercedes S-Class">
+						<div class="card-body">
+							<div class="meta"><div class="model">Mercedes S-Class</div><div class="price">€120,000</div></div>
+							<div class="tags"><span class="tag">Mercedes</span><span class="tag">Sedan</span><span class="tag">Blanco</span></div>
+							<div class="actions"><a class="btn" href="#" data-action="view">Ver</a><a class="btn ghost" href="#">Contactar</a></div>
+						</div>
+					</article>
+
+					<article class="card" data-brand="Tesla" data-style="Híbrido/Eléctrico" data-color="Azul" data-name="Tesla Model S">
+						<img src="https://picsum.photos/seed/tesla1/800/600" alt="Tesla Model S">
+						<div class="card-body">
+							<div class="meta"><div class="model">Tesla Model S</div><div class="price">€95,000</div></div>
+							<div class="tags"><span class="tag">Tesla</span><span class="tag">Eléctrico</span><span class="tag">Azul</span></div>
+							<div class="actions"><a class="btn" href="#" data-action="view">Ver</a><a class="btn ghost" href="#">Contactar</a></div>
+						</div>
+					</article>
+
+					<article class="card" data-brand="Toyota" data-style="Sedan" data-color="Gris" data-name="Toyota Corolla">
+						<img src="https://picsum.photos/seed/toyota1/800/600" alt="Toyota Corolla">
+						<div class="card-body">
+							<div class="meta"><div class="model">Toyota Corolla</div><div class="price">€22,500</div></div>
+							<div class="tags"><span class="tag">Toyota</span><span class="tag">Sedan</span><span class="tag">Gris</span></div>
+							<div class="actions"><a class="btn" href="#" data-action="view">Ver</a><a class="btn ghost" href="#">Contactar</a></div>
+						</div>
+					</article>
+
+					<article class="card" data-brand="Ford" data-style="Coupe" data-color="Dorado" data-name="Ford Mustang">
+						<img src="https://picsum.photos/seed/ford1/800/600" alt="Ford Mustang">
+						<div class="card-body">
+							<div class="meta"><div class="model">Ford Mustang</div><div class="price">€65,000</div></div>
+							<div class="tags"><span class="tag">Ford</span><span class="tag">Coupe</span><span class="tag">Dorado</span></div>
+							<div class="actions"><a class="btn" href="#" data-action="view">Ver</a><a class="btn ghost" href="#">Contactar</a></div>
+						</div>
+					</article>
+				</div>
+			</main>
+
+			<footer>
+				© 2025 Concesionario Premium — Diseñado con paleta "lujo" (negro, dorado, acentos teal). Reemplaza imágenes por fotos reales en la carpeta /images.
+			</footer>
+		</div>
+
+		<!-- Modal detalle -->
+		<div class="overlay" id="overlay" aria-hidden="true">
+			<div class="modal" role="dialog" aria-modal="true">
+				<div style="position:relative">
+					<button class="close" id="closeBtn">✕</button>
+					<div class="modal-grid">
+						<div style="min-height:320px"><img id="modalImg" src="" alt=""></div>
+						<div class="modal-body">
+							<h2 id="modalTitle"></h2>
+							<p id="modalPrice" style="color:var(--gold);font-weight:800;margin:6px 0"></p>
+							<p id="modalDesc" style="color:var(--muted)">Descripción breve del vehículo, características técnicas, kilometraje, año y opciones. Reemplaza este texto con datos reales.</p>
+							<div style="margin-top:12px"><a id="contactNow" class="btn" href="#">Contactar vendedor</a></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			// Filtrado simple
+			const catalog = document.getElementById('catalog');
+			const brand = document.getElementById('brand');
+			const styleSel = document.getElementById('style');
+			const search = document.getElementById('search');
+			const colorContainer = document.getElementById('colors');
+			let selectedColor = '';
+
+			function applyFilters(){
+				const b = brand.value.toLowerCase();
+				const s = styleSel.value.toLowerCase();
+				const q = search.value.trim().toLowerCase();
+				Array.from(catalog.children).forEach(card => {
+					const cBrand = card.dataset.brand.toLowerCase();
+					const cStyle = card.dataset.style.toLowerCase();
+					const cColor = card.dataset.color.toLowerCase();
+					const cName = card.dataset.name.toLowerCase();
+					let visible = true;
+					if(b && cBrand !== b) visible = false;
+					if(s && cStyle !== s) visible = false;
+					if(selectedColor && cColor !== selectedColor.toLowerCase()) visible = false;
+					if(q && !(cName.includes(q) || cBrand.includes(q) || cStyle.includes(q))) visible = false;
+					card.style.display = visible ? '' : 'none';
+				});
+			}
+
+			brand.addEventListener('change', applyFilters);
+			styleSel.addEventListener('change', applyFilters);
+			search.addEventListener('input', applyFilters);
+
+			// Color swatches
+			colorContainer.addEventListener('click', (e) => {
+				const sw = e.target.closest('.color-swatch');
+				if(!sw) return;
+				const already = sw.classList.contains('selected');
+				Array.from(colorContainer.children).forEach(c=>c.classList.remove('selected'));
+				selectedColor = '';
+				if(!already){ sw.classList.add('selected'); selectedColor = sw.dataset.color; }
+				applyFilters();
+			});
+
+			// Modal view
+			const overlay = document.getElementById('overlay');
+			const modalImg = document.getElementById('modalImg');
+			const modalTitle = document.getElementById('modalTitle');
+			const modalPrice = document.getElementById('modalPrice');
+			const contactNow = document.getElementById('contactNow');
+
+			catalog.addEventListener('click', (e) => {
+				const btn = e.target.closest('[data-action="view"]');
+				if(!btn) return;
+				e.preventDefault();
+				const card = btn.closest('.card');
+				const img = card.querySelector('img').src;
+				modalImg.src = img;
+				modalTitle.textContent = card.dataset.name + ' — ' + card.dataset.brand;
+				modalPrice.textContent = card.querySelector('.price').textContent;
+				contactNow.href = 'mailto:ventas@concesionario.ej?subject=' + encodeURIComponent('Interés en ' + card.dataset.name);
+				overlay.classList.add('open');
+				overlay.setAttribute('aria-hidden','false');
+			});
+
+			document.getElementById('closeBtn').addEventListener('click', () => {
+				overlay.classList.remove('open');
+				overlay.setAttribute('aria-hidden','true');
+			});
+
+			// Close on Escape
+			window.addEventListener('keydown', (e) => { if(e.key === 'Escape') overlay.classList.remove('open'); });
+
+			// Accessibility: allow clicking outside modal to close
+			overlay.addEventListener('click', (e) => {
+				if(e.target === overlay) overlay.classList.remove('open');
+			});
+		</script>
+	</body>
 </html>
-
